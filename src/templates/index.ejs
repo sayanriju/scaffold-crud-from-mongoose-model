@@ -4,7 +4,7 @@ module.exports = {
 
   async find(req, res) {
     try {
-      const <%= mongooseDocNamePlural %> = await <%= mongooseModelName %>.find({}).select("-password -forgotpassword").exec()
+      const <%= mongooseDocNamePlural %> = await <%= mongooseModelName %>.find({}).exec()
       return res.json({ error: false, <%= mongooseDocNamePlural %> })
     } catch (err) {
       return res.status(500).json({ error: true, reason: err.message })
@@ -13,7 +13,7 @@ module.exports = {
 
   async get(req, res) {
     try {
-      const <%= mongooseDocNameSingular %> = await <%= mongooseModelName %>.findOne({ _id: req.params.id }).select("-password -forgotpassword").exec()
+      const <%= mongooseDocNameSingular %> = await <%= mongooseModelName %>.findOne({ _id: req.params.id }).exec()
       return res.json({ error: false, <%= mongooseDocNameSingular %> })
     } catch (err) {
       return res.status(500).json({ error: true, reason: err.message })

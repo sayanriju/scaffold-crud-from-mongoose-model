@@ -52,11 +52,11 @@ class TheCommand extends Command {
     const model = require(inpFile)
     const { modelName, paths } = parseModel(model)
 
-    const opFile = `${opDir.replace(/\/$/, "")}/${pluralize(modelName)}.js` // the crud handlers file (full path)
-
     const mongooseModelName = modelName[0].toUpperCase() + modelName.substr(1)
     const mongooseDocNameSingular = modelName[0].toLowerCase() + modelName.substr(1)
     const mongooseDocNamePlural = pluralize(mongooseDocNameSingular)
+
+    const opFile = `${opDir.replace(/\/$/, "")}/${mongooseDocNamePlural}.js` // the crud handlers file (full path)
 
     const data = {
       modelFilePath: relative(opFile, inpFile),
@@ -69,7 +69,7 @@ class TheCommand extends Command {
 
     await writeFile(opFile, rendered)
 
-    this.log(`CRUD handlers file have been generated as ${opFile}`)
+    this.log(`CRUD handlers have been (over)written to ${opFile}`)
   }
 }
 
