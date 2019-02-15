@@ -75,9 +75,7 @@ class TheCommand extends Command {
 }
 
 TheCommand.description = `
-Describe the command here
-...
-Extra documentation goes here
+Generates an opinionated set of REST route handlers (annotated with Apidoc syntax) for Node/Express to perform CRUD operations upon a Mongoose Model.
 `
 
 TheCommand.flags = {
