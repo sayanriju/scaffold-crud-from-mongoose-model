@@ -10,7 +10,7 @@ Generates an opinionated set of REST route handlers (annotated with Apidoc synta
 
 ### With npx
 ```
-npx scaffold-crud-from-mongoose-model /path/to/models/model1.js /path/to/rest/handlers
+npx @sayanriju/scaffold-crud-from-mongoose-model /path/to/models/model1.js /path/to/rest/handlers
 ```
 ### Or, Install Globally
 ```
