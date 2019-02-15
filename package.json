@@ -1,6 +1,6 @@
 {
   "name": "@sayanriju/scaffold-crud-from-mongoose-model",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Sayan Riju Chakrabarti <s26c.sayan@gmail.com>",
   "bin": {
     "scaffold-crud-from-mongoose-model": "./bin/run"
@@ -27,7 +27,11 @@
   ],
   "homepage": "https://github.com/sayanriju/mynewcli",
   "keywords": [
-    "oclif"
+    "oclif",
+    "mongoose",
+    "express",
+    "crud",
+    "scaffold"
   ],
   "license": "MIT",
   "main": "src/index.js",
