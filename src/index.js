@@ -13,6 +13,7 @@ function parseModel(model) {
       field: p.path,
       type: p.instance,
       isRequired: p.isRequired,
+      defaultValue: p.defaultValue,
       isNested: p.path.includes(".") === true,
       isDeepNested: p.path.split("").filter(c => c === ".").length > 1
     }))

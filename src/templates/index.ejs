@@ -2,6 +2,21 @@ const <%= mongooseModelName %> = require("<%= modelFilePath %>")
 
 module.exports = {
 
+  /**
+   * Fetch all the <%= mongooseModelName %>s
+   * @api {get} /<%= mongooseDocNamePlural %> 1.0 Fetch all the <%= mongooseModelName %>s
+   * @apiName fetch<%= mongooseModelName %>s
+   * @apiGroup <%= mongooseModelName %>
+   * @apiPermission Public
+   *
+   * @apiHeader {String} Authorization The JWT Token in format "Bearer xxxx.yyyy.zzzz"
+   *
+   * @apiSuccessExample {type} Success-Response: 200 OK
+   * {
+   *     error : false,
+   *     <%= mongooseDocNamePlural %>: [{}]
+   * }
+   */
   async find(req, res) {
     try {
       const <%= mongooseDocNamePlural %> = await <%= mongooseModelName %>.find({}).exec()
@@ -11,6 +26,23 @@ module.exports = {
     }
   },
 
+  /**
+   * Find a <%= mongooseModelName %> by _id
+   * @api {get} /<%= mongooseDocNameSingular %>/:id 2.0 Find a <%= mongooseModelName %> by _id
+   * @apiName get<%= mongooseModelName %>
+   * @apiGroup <%= mongooseModelName %>
+   * @apiPermission Public
+   *
+   * @apiHeader {String} Authorization The JWT Token in format "Bearer xxxx.yyyy.zzzz"
+   *
+   * @apiParam {String} id `URL Param` The _id of the <%= mongooseModelName %> to find
+   *
+   * @apiSuccessExample {type} Success-Response: 200 OK
+   * {
+   *     error : false,
+   *     <%= mongooseDocNameSingular %>: {}
+   * }
+   */
   async get(req, res) {
     try {
       const <%= mongooseDocNameSingular %> = await <%= mongooseModelName %>.findOne({ _id: req.params.id }).exec()
@@ -20,6 +52,26 @@ module.exports = {
     }
   },
 
+  /**
+   * Create a new <%= mongooseModelName %>
+   * @api {post} /<%= mongooseDocNameSingular %> 3.0 Create a new <%= mongooseModelName %>
+   * @apiName create<%= mongooseModelName %>
+   * @apiGroup <%= mongooseModelName %>
+   * @apiPermission Public
+   *
+   * @apiHeader {String} Authorization The JWT Token in format "Bearer xxxx.yyyy.zzzz"
+   *
+   <% paths.filter(p => p.isRequired === true).forEach(p => { %>* @apiParam  {<%= p.type %>} <%= p.field %> <%= mongooseModelName + ' ' + p.field %>
+   <% }) %>
+   <% paths.filter(p => p.isRequired !== true).forEach(p => { %>* @apiParam  {<%= p.type %>} [<%= p.field %><%= p.defaultValue !== undefined ? '=' + p.defaultValue : '' %>] <%= mongooseModelName + ' ' + p.field %>
+   <% }) %>
+   *
+   * @apiSuccessExample {type} Success-Response: 200 OK
+   * {
+   *     error : false,
+   *     <%= mongooseDocNameSingular %>: {}
+   * }
+   */
   async post(req, res) {
     try {
       const {
@@ -37,6 +89,25 @@ module.exports = {
     }
   },
 
+  /**
+   * Edit a <%= mongooseModelName %> by _id
+   * @api {put} /<%= mongooseDocNameSingular %>/:id 4.0 Edit a <%= mongooseModelName %> by _id
+   * @apiName edit<%= mongooseModelName %>
+   * @apiGroup <%= mongooseModelName %>
+   * @apiPermission Public
+   *
+   * @apiHeader {String} Authorization The JWT Token in format "Bearer xxxx.yyyy.zzzz"
+   *
+   * @apiParam {String} id `URL Param` The _id of the <%= mongooseModelName %> to edit
+   <% paths.filter(p => p.isRequired !== true).forEach(p => { %>* @apiParam  {<%= p.type %>} [<%= p.field %><%= p.defaultValue !== undefined ? '=' + p.defaultValue : '' %>] <%= mongooseModelName + ' ' + p.field %>
+   <% }) %>
+   *
+   * @apiSuccessExample {type} Success-Response: 200 OK
+   * {
+   *     error : false,
+   *     <%= mongooseDocNameSingular %>: {}
+   * }
+   */
   async put(req, res) {
     try {
       const {
@@ -54,6 +125,23 @@ module.exports = {
     }
   },
   
+
+  /**
+   * Delete a <%= mongooseModelName %> by _id
+   * @api {delete} /<%= mongooseDocNameSingular %>/:id 4.0 Delete a <%= mongooseModelName %> by _id
+   * @apiName delete<%= mongooseModelName %>
+   * @apiGroup <%= mongooseModelName %>
+   * @apiPermission Public
+   *
+   * @apiHeader {String} Authorization The JWT Token in format "Bearer xxxx.yyyy.zzzz"
+   *
+   * @apiParam {String} id `URL Param` The _id of the <%= mongooseModelName %> to delete
+   *
+   * @apiSuccessExample {type} Success-Response:
+   * {
+   *     error : false,
+   * }
+   */
   async delete(req, res) {
     try {
       await <%= mongooseModelName %>.deleteOne({ _id: req.params.id })
