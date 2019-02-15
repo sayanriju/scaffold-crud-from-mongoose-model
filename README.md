@@ -9,8 +9,14 @@ Generates an opinionated set of REST route handlers (annotated with Apidoc synta
 
 [![NPM](https://nodeico.herokuapp.com/@sayanriju/scaffold-crud-from-mongoose-model.svg)](https://www.npmjs.com/package/@sayanriju/scaffold-crud-from-mongoose-model)
 
-<!-- toc -->
 # Usage
-`scaffold-crud-from-mongoose-model /path/to/models/model1.js /path/to/rest/handlers`
-<!-- usage -->
 
+### With npx
+```
+npx scaffold-crud-from-mongoose-model /path/to/models/model1.js /path/to/rest/handlers
+```
+### Or, Install Globally
+```
+npm i -g @sayanriju/scaffold-crud-from-mongoose-model
+scaffold-crud-from-mongoose-model /path/to/models/model1.js /path/to/rest/handlers
+```
