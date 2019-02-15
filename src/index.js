@@ -48,7 +48,7 @@ class TheCommand extends Command {
     // eslint-disable-next-line no-shadow
     const { args, flags } = this.parse(TheCommand)
     const { inpFile, opDir } = args
-    const tmplFile = "./src/templates/index.ejs"
+    const tmplFile = "src/templates/index.ejs"
     // eslint-disable-next-line import/no-dynamic-require, global-require
     const model = require(inpFile)
     const { modelName, paths } = parseModel(model)
