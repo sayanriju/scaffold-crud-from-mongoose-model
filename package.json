@@ -1,0 +1,44 @@
+{
+  "name": "@sayanriju/scaffold-crud-from-mongoose-model",
+  "version": "1.0.0",
+  "author": "Sayan Riju Chakrabarti <s26c.sayan@gmail.com>",
+  "bin": {
+    "scaffold-crud-from-mongoose-model": "./bin/run"
+  },
+  "bugs": "https://github.com/sayanriju/mynewcli/issues",
+  "dependencies": {
+    "@oclif/command": "^1.5.10",
+    "@oclif/config": "^1.12.6",
+    "@oclif/plugin-help": "^2.1.6",
+    "ejs": "^2.6.1",
+    "mongoose": "^5.4.12",
+    "pluralize": "^7.0.0",
+    "prettier": "^1.16.4",
+    "relative": "^3.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-oclif": "^1.4.0"
+  },
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "files": [
+    "/bin",
+    "/src"
+  ],
+  "homepage": "https://github.com/sayanriju/mynewcli",
+  "keywords": [
+    "oclif"
+  ],
+  "license": "MIT",
+  "main": "src/index.js",
+  "oclif": {
+    "bin": "mynewcli"
+  },
+  "repository": "sayanriju/mynewcli",
+  "scripts": {
+    "posttest": "eslint .",
+    "test": "echo NO TESTS"
+  }
+}

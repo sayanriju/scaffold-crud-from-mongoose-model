@@ -1,0 +1,66 @@
+const <%= mongooseModelName %> = require("<%= modelFilePath %>")
+
+module.exports = {
+
+  async find(req, res) {
+    try {
+      const <%= mongooseDocNamePlural %> = await <%= mongooseModelName %>.find({}).select("-password -forgotpassword").exec()
+      return res.json({ error: false, <%= mongooseDocNamePlural %> })
+    } catch (err) {
+      return res.status(500).json({ error: true, reason: err.message })
+    }
+  },
+
+  async get(req, res) {
+    try {
+      const <%= mongooseDocNameSingular %> = await <%= mongooseModelName %>.findOne({ _id: req.params.id }).select("-password -forgotpassword").exec()
+      return res.json({ error: false, <%= mongooseDocNameSingular %> })
+    } catch (err) {
+      return res.status(500).json({ error: true, reason: err.message })
+    }
+  },
+
+  async post(req, res) {
+    try {
+      const {
+        <%= paths.filter(p => p.isNested !== true).map(p => p.field).join(", ") %>
+      } = req.body
+
+      <% paths.filter(p => p.isRequired === true).forEach(p => { %>if (<%= p.field %> === undefined) return res.status(400).json({ error: true, reason: "Missing manadatory field `<%= p.field %>`" })<% }) %>
+
+      const <%= mongooseDocNameSingular %> = await <%= mongooseModelName %>.create({
+        <%= paths.filter(p => p.isNested !== true).map(p => p.field).join(", ") %>
+      })
+      return res.json({ error: false, <%= mongooseDocNameSingular %> })
+    } catch (err) {
+      return res.status(500).json({ error: true, reason: err.message })
+    }
+  },
+
+  async put(req, res) {
+    try {
+      const {
+        <%= paths.filter(p => p.isNested !== true).map(p => p.field).join(", ") %>
+      } = req.body
+      const <%= mongooseDocNameSingular %> = await <%= mongooseModelName %>.findOne({ _id: req.params.id }).exec()
+      if (<%= mongooseDocNameSingular %> === null) return res.status(400).json({ error: true, reason: "No such <%= mongooseModelName %>!" })
+      <% paths.filter(p => !p.isDeepNested && p.type !== "Object").forEach(p => { %>
+      <% if (p.isNested) { %>if (<%= p.topField %> !== undefined && <%= p.field %> !== undefined) <%= mongooseDocNameSingular %>.<%= p.field %> = <%= p.field %><% } else { %>if (<%= p.field %> !== undefined) <%= mongooseDocNameSingular %>.<%= p.field %> = <%= p.field %><% } %><% }) %>
+
+      await <%= mongooseDocNameSingular %>.save()
+      return res.json({ error: false, <%= mongooseDocNameSingular %> })
+    } catch (err) {
+      return res.status(500).json({ error: true, reason: err.message })
+    }
+  },
+  
+  async delete(req, res) {
+    try {
+      await <%= mongooseModelName %>.deleteOne({ _id: req.params.id })
+      return res.json({ error: false })
+    } catch (err) {
+      return res.status(500).json({ error: true, reason: err.message })
+    }
+  }
+
+}
