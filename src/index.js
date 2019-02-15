@@ -51,8 +51,6 @@ class TheCommand extends Command {
     const { inpFile, opDir } = args
     /* eslint-disable import/no-dynamic-require, global-require */
     const template = require("./template.js")
-    // const tmplFile = path.dirname("templates/index.ejs")
-    // const tmplFile = "../templates/index.ejs"
     const model = require(inpFile)
     /* eslint-enable import/no-dynamic-require, global-require */
 
