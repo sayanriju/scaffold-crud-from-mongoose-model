@@ -1,7 +1,8 @@
 const { Command, flags } = require("@oclif/command")
-const ejs = require("ejs")
 const util = require("util")
 const fs = require("fs")
+const path = require("path")
+const ejs = require("ejs")
 const relative = require("relative")
 const pluralize = require("pluralize")
 
@@ -48,9 +49,13 @@ class TheCommand extends Command {
     // eslint-disable-next-line no-shadow
     const { args, flags } = this.parse(TheCommand)
     const { inpFile, opDir } = args
-    const tmplFile = "src/templates/index.ejs"
-    // eslint-disable-next-line import/no-dynamic-require, global-require
+    /* eslint-disable import/no-dynamic-require, global-require */
+    const template = require("./template.js")
+    // const tmplFile = path.dirname("templates/index.ejs")
+    // const tmplFile = "../templates/index.ejs"
     const model = require(inpFile)
+    /* eslint-enable import/no-dynamic-require, global-require */
+
     const { modelName, paths } = parseModel(model)
 
     const mongooseModelName = modelName[0].toUpperCase() + modelName.substr(1)
@@ -66,7 +71,7 @@ class TheCommand extends Command {
       mongooseDocNamePlural,
       paths
     }
-    const rendered = await ejs.renderFile(tmplFile, data, { async: true })
+    const rendered = await ejs.render(template, data, { async: true })
 
     await writeFile(opFile, rendered)
 

@@ -1,3 +1,4 @@
+module.exports = `
 const <%= mongooseModelName %> = require("<%= modelFilePath %>")
 
 module.exports = {
@@ -35,7 +36,7 @@ module.exports = {
    *
    * @apiHeader {String} Authorization The JWT Token in format "Bearer xxxx.yyyy.zzzz"
    *
-   * @apiParam {String} id `URL Param` The _id of the <%= mongooseModelName %> to find
+   * @apiParam {String} id 'URL Param' The _id of the <%= mongooseModelName %> to find
    *
    * @apiSuccessExample {type} Success-Response: 200 OK
    * {
@@ -78,7 +79,7 @@ module.exports = {
         <%= paths.filter(p => p.isNested !== true).map(p => p.field).join(", ") %>
       } = req.body
 
-      <% paths.filter(p => p.isRequired === true).forEach(p => { %>if (<%= p.field %> === undefined) return res.status(400).json({ error: true, reason: "Missing manadatory field `<%= p.field %>`" })<% }) %>
+      <% paths.filter(p => p.isRequired === true).forEach(p => { %>if (<%= p.field %> === undefined) return res.status(400).json({ error: true, reason: "Missing manadatory field '<%= p.field %>'" })<% }) %>
 
       const <%= mongooseDocNameSingular %> = await <%= mongooseModelName %>.create({
         <%= paths.filter(p => p.isNested !== true).map(p => p.field).join(", ") %>
@@ -98,7 +99,7 @@ module.exports = {
    *
    * @apiHeader {String} Authorization The JWT Token in format "Bearer xxxx.yyyy.zzzz"
    *
-   * @apiParam {String} id `URL Param` The _id of the <%= mongooseModelName %> to edit
+   * @apiParam {String} id 'URL Param' The _id of the <%= mongooseModelName %> to edit
    <% paths.filter(p => p.isRequired !== true).forEach(p => { %>* @apiParam  {<%= p.type %>} [<%= p.field %><%= p.defaultValue !== undefined ? '=' + p.defaultValue : '' %>] <%= mongooseModelName + ' ' + p.field %>
    <% }) %>
    *
@@ -135,7 +136,7 @@ module.exports = {
    *
    * @apiHeader {String} Authorization The JWT Token in format "Bearer xxxx.yyyy.zzzz"
    *
-   * @apiParam {String} id `URL Param` The _id of the <%= mongooseModelName %> to delete
+   * @apiParam {String} id 'URL Param' The _id of the <%= mongooseModelName %> to delete
    *
    * @apiSuccessExample {type} Success-Response:
    * {
@@ -152,3 +153,4 @@ module.exports = {
   }
 
 }
+`
