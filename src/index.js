@@ -1,12 +1,8 @@
 const { Command, flags } = require("@oclif/command")
-const util = require("util")
 const fs = require("fs")
-const path = require("path")
 const ejs = require("ejs")
 const relative = require("relative")
 const pluralize = require("pluralize")
-
-const writeFile = util.promisify(fs.writeFile)
 
 function parseModel(model) {
   const paths = Object.values(model.schema.paths)
@@ -47,11 +43,14 @@ function parseModel(model) {
 class TheCommand extends Command {
   async run() {
     // eslint-disable-next-line no-shadow
-    const { args, flags } = this.parse(TheCommand)
+    const { args } = this.parse(TheCommand)
     const { inpFile, opDir } = args
     /* eslint-disable import/no-dynamic-require, global-require */
     const template = require("./template.js")
-    const model = require(inpFile)
+
+    await fs.promises.copyFile(inpFile, `${__dirname}/tmp-model.js`) // temporary file
+    const model = require(`${__dirname}/tmp-model.js`)
+    await fs.promises.unlink(`${__dirname}/tmp-model.js`) // del temporary file
     /* eslint-enable import/no-dynamic-require, global-require */
 
     const { modelName, paths } = parseModel(model)
@@ -71,7 +70,7 @@ class TheCommand extends Command {
     }
     const rendered = await ejs.render(template, data, { async: true })
 
-    await writeFile(opFile, rendered)
+    await fs.promises.writeFile(opFile, rendered)
 
     this.log(`CRUD handlers have been (over)written to ${opFile}`)
   }
@@ -91,9 +90,9 @@ TheCommand.flags = {
 }
 
 TheCommand.args = [
-  { name: "inpFile", required: true, description: "Full path to the file exporting the mongoose model" },
+  { name: "inpFile", required: true, description: "Full path to the FILE exporting the mongoose model" },
   {
-    name: "opDir", required: false, description: "Full path to the dir where the genreated CRUD handlers file will be created (overwritten)", default: "."
+    name: "opDir", required: true, description: "Full path to the DIR where the genreated CRUD handlers file will be created (overwritten)"
   },
 ]
 
