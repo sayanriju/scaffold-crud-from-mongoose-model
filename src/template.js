@@ -61,11 +61,9 @@ module.exports = {
    * @apiPermission Public
    *
    * @apiHeader {String} Authorization The JWT Token in format "Bearer xxxx.yyyy.zzzz"
-   *
-   <% paths.filter(p => p.isRequired === true).forEach(p => { %>* @apiParam  {<%= p.type %>} <%= p.field %> <%= mongooseModelName + ' ' + p.field %>
-   <% }) %>
-   <% paths.filter(p => p.isRequired !== true).forEach(p => { %>* @apiParam  {<%= p.type %>} [<%= p.field %><%= p.defaultValue !== undefined ? '=' + p.defaultValue : '' %>] <%= mongooseModelName + ' ' + p.field %>
-   <% }) %>
+   *<% paths.filter(p => p.isRequired === true).forEach(p => { %>
+   * @apiParam  {<%= p.type %>} <%= p.field %> <%= mongooseModelName + ' ' + p.field %><% }) %><% paths.filter(p => p.isRequired !== true).forEach(p => { %>
+   * @apiParam  {<%= p.type %>} [<%= p.field %><%= p.defaultValue !== undefined && p.type !== 'Array' ? '=' + p.defaultValue : '' %>] <%= mongooseModelName + ' ' + p.field %><% }) %>
    *
    * @apiSuccessExample {type} Success-Response: 200 OK
    * {
@@ -77,10 +75,8 @@ module.exports = {
     try {
       const {
         <%= paths.filter(p => p.isNested !== true).map(p => p.field).join(", ") %>
-      } = req.body
-
-      <% paths.filter(p => p.isRequired === true).forEach(p => { %>if (<%= p.field %> === undefined) return res.status(400).json({ error: true, reason: "Missing manadatory field '<%= p.field %>'" })<% }) %>
-
+      } = req.body<% paths.filter(p => p.isRequired === true).forEach(p => { %>
+      if (<%= p.field %> === undefined) return res.status(400).json({ error: true, reason: "Missing manadatory field '<%= p.field %>'" })<% }) %>
       const <%= mongooseDocNameSingular %> = await <%= mongooseModelName %>.create({
         <%= paths.filter(p => p.isNested !== true).map(p => p.field).join(", ") %>
       })
@@ -100,8 +96,8 @@ module.exports = {
    * @apiHeader {String} Authorization The JWT Token in format "Bearer xxxx.yyyy.zzzz"
    *
    * @apiParam {String} id 'URL Param' The _id of the <%= mongooseModelName %> to edit
-   <% paths.filter(p => p.isRequired !== true).forEach(p => { %>* @apiParam  {<%= p.type %>} [<%= p.field %><%= p.defaultValue !== undefined ? '=' + p.defaultValue : '' %>] <%= mongooseModelName + ' ' + p.field %>
-   <% }) %>
+<% paths.filter(p => p.isRequired !== true).forEach(p => { %>
+   * @apiParam  {<%= p.type %>} [<%= p.field %><%= p.defaultValue !== undefined && p.type !== 'Array' ? '=' + p.defaultValue : '' %>] <%= mongooseModelName + ' ' + p.field %><% }) %>
    *
    * @apiSuccessExample {type} Success-Response: 200 OK
    * {
@@ -116,7 +112,7 @@ module.exports = {
       } = req.body
       const <%= mongooseDocNameSingular %> = await <%= mongooseModelName %>.findOne({ _id: req.params.id }).exec()
       if (<%= mongooseDocNameSingular %> === null) return res.status(400).json({ error: true, reason: "No such <%= mongooseModelName %>!" })
-      <% paths.filter(p => !p.isDeepNested && p.type !== "Object").forEach(p => { %>
+<% paths.filter(p => !p.isDeepNested && p.type !== "Object").forEach(p => { %>
       <% if (p.isNested) { %>if (<%= p.topField %> !== undefined && <%= p.field %> !== undefined) <%= mongooseDocNameSingular %>.<%= p.field %> = <%= p.field %><% } else { %>if (<%= p.field %> !== undefined) <%= mongooseDocNameSingular %>.<%= p.field %> = <%= p.field %><% } %><% }) %>
 
       await <%= mongooseDocNameSingular %>.save()
@@ -125,7 +121,6 @@ module.exports = {
       return res.status(500).json({ error: true, reason: err.message })
     }
   },
-  
 
   /**
    * Delete a <%= mongooseModelName %> by _id
@@ -153,5 +148,4 @@ module.exports = {
   }
 
 }
-
 `
