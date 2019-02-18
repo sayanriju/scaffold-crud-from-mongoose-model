@@ -72,27 +72,23 @@ class TheCommand extends Command {
 
     await fs.promises.writeFile(opFile, rendered)
 
-    this.log(`CRUD handlers have been (over)written to ${opFile}`)
+    this.log(`CRUD handlers have been (over)written to ${opFile}. Now fine-tune it according to your needs.`)
   }
 }
 
-TheCommand.description = `
-Generates an opinionated set of REST route handlers (annotated with Apidoc syntax) for Node/Express to perform CRUD operations upon a Mongoose Model.
-`
+TheCommand.description = `Generates an opinionated set of REST route handlers (annotated with Apidoc syntax) for Node/Express to perform CRUD operations upon a Mongoose Model.`
 
 TheCommand.flags = {
   // add --version flag to show CLI version
   version: flags.version({ char: "v" }),
   // add --help flag to show CLI version
   help: flags.help({ char: "h" }),
-  // "input-file": flags.string({ char: "i", description: "path to the file exporting the mongoose model" }),
-  // "output-dir": flags.string({ char: "o", description: "path to the dir where the genreated CRUD handlers file will be created (overwritten)" }),
 }
 
 TheCommand.args = [
-  { name: "inpFile", required: true, description: "Full path to the FILE exporting the mongoose model" },
+  { name: "inpFile", required: true, description: "Path to the FILE exporting the mongoose model" },
   {
-    name: "opDir", required: true, description: "Full path to the DIR where the genreated CRUD handlers file will be created (overwritten)"
+    name: "opDir", required: true, description: "Path to the DIR where the genreated CRUD handlers file will be created (overwritten)"
   },
 ]
 
