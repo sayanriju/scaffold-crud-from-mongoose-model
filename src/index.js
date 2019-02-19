@@ -5,10 +5,12 @@ const relative = require("relative")
 const pluralize = require("pluralize")
 
 function parseModel(model) {
+  console.log(Object.values(model.schema.paths).find(p => p.instance === 'Array').caster.instance);
   const paths = Object.values(model.schema.paths)
     .map(p => ({
       field: p.path,
       type: p.instance,
+      subType: p.instance === "Array" && p.caster !== undefined ? p.caster.instance : null,
       isRequired: p.isRequired,
       defaultValue: p.defaultValue,
       isNested: p.path.includes(".") === true,
@@ -20,13 +22,12 @@ function parseModel(model) {
           const topField = cur.field.split(".")[0]
           acc.push(Object.assign(cur, { topField }))
           if (acc.find(p => p.field === topField) === undefined) {
-            acc.push({
+            acc.push(Object.assign(cur, {
               field: topField,
               type: "Object",
-              isRequired: cur.isRequired,
               isNested: false,
               isDeepNested: false
-            })
+            }))
           }
         } else {
           acc.push(cur)
