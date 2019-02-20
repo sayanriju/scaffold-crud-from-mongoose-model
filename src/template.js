@@ -36,7 +36,7 @@ module.exports = {
    *
    * @apiHeader {String} Authorization The JWT Token in format "Bearer xxxx.yyyy.zzzz"
    *
-   * @apiParam {String} id 'URL Param' The _id of the <%= mongooseModelName %> to find
+   * @apiParam {String} id \`URL Param\` The _id of the <%= mongooseModelName %> to find
    *
    * @apiSuccessExample {type} Success-Response: 200 OK
    * {
@@ -62,8 +62,8 @@ module.exports = {
    *
    * @apiHeader {String} Authorization The JWT Token in format "Bearer xxxx.yyyy.zzzz"
    *<% paths.filter(p => p.isRequired === true).forEach(p => { %>
-   * @apiParam  {<%= p.type !== 'Array' ? p.type : p.subType + '[]' %>} <%= p.field %> <%= mongooseModelName + ' ' + p.field %><% }) %><% paths.filter(p => p.isRequired !== true).forEach(p => { %>
-   * @apiParam  {<%= p.type !== 'Array' ? p.type : p.subType + '[]' %>} [<%= p.field %><%= p.defaultValue !== undefined && typeof p.defaultValue !== 'function' && p.type !== 'Array' ? '=' + p.defaultValue : '' %>] <%= mongooseModelName + ' ' + p.field %><% }) %>
+   * @apiParam  {<%= p.type !== 'Array' ? p.type : p.subType + '[]' %>} <%= p.field %> <%= mongooseModelName + ' ' + p.field %><% if (p.enumValues !== null) { %> \`enum=[<%- p.enumValues.map(ev => '"' + ev + '"').join(', ') %>]\`<% } %><% }) %><% paths.filter(p => p.isRequired !== true).forEach(p => { %>
+   * @apiParam  {<%= p.type !== 'Array' ? p.type : p.subType + '[]' %>} [<%= p.field %><%= p.defaultValue !== undefined && typeof p.defaultValue !== 'function' && p.type !== 'Array' ? '=' + p.defaultValue : '' %>] <%= mongooseModelName + ' ' + p.field %><% if (p.enumValues !== null) { %> \`enum=[<%- p.enumValues.map(ev => '"' + ev + '"').join(', ') %>]\`<% } %><% }) %>
    *
    * @apiSuccessExample {type} Success-Response: 200 OK
    * {
@@ -95,9 +95,9 @@ module.exports = {
    *
    * @apiHeader {String} Authorization The JWT Token in format "Bearer xxxx.yyyy.zzzz"
    *
-   * @apiParam {String} id 'URL Param' The _id of the <%= mongooseModelName %> to edit
+   * @apiParam {String} id \`URL Param\` The _id of the <%= mongooseModelName %> to edit
 <% paths.filter(p => p.isRequired !== true).forEach(p => { %>
-   * @apiParam  {<%= p.type !== 'Array' ? p.type : p.subType + '[]' %>} [<%= p.field %><%= p.defaultValue !== undefined && typeof p.defaultValue !== 'function' && p.type !== 'Array' ? '=' + p.defaultValue : '' %>] <%= mongooseModelName + ' ' + p.field %><% }) %>
+   * @apiParam  {<%= p.type !== 'Array' ? p.type : p.subType + '[]' %>} [<%= p.field %><%= p.defaultValue !== undefined && typeof p.defaultValue !== 'function' && p.type !== 'Array' ? '=' + p.defaultValue : '' %>] <%= mongooseModelName + ' ' + p.field %><% if (p.enumValues !== null) { %> \`enum=[<%- p.enumValues.map(ev => '"' + ev + '"').join(', ') %>]\`<% } %><% }) %>
    *
    * @apiSuccessExample {type} Success-Response: 200 OK
    * {
@@ -131,7 +131,7 @@ module.exports = {
    *
    * @apiHeader {String} Authorization The JWT Token in format "Bearer xxxx.yyyy.zzzz"
    *
-   * @apiParam {String} id 'URL Param' The _id of the <%= mongooseModelName %> to delete
+   * @apiParam {String} id \`URL Param\` The _id of the <%= mongooseModelName %> to delete
    *
    * @apiSuccessExample {type} Success-Response:
    * {

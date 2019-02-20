@@ -5,7 +5,6 @@ const relative = require("relative")
 const pluralize = require("pluralize")
 
 function parseModel(model) {
-  console.log(Object.values(model.schema.paths).find(p => p.instance === 'Array').caster.instance);
   const paths = Object.values(model.schema.paths)
     .map(p => ({
       field: p.path,
@@ -14,7 +13,8 @@ function parseModel(model) {
       isRequired: p.isRequired,
       defaultValue: p.defaultValue,
       isNested: p.path.includes(".") === true,
-      isDeepNested: p.path.split("").filter(c => c === ".").length > 1
+      isDeepNested: p.path.split("").filter(c => c === ".").length > 1,
+      enumValues: p.enumValues && p.enumValues.length > 0 ? p.enumValues : null
     }))
     .reduce((acc, cur) => {
       if (!cur.field.startsWith("_")) {

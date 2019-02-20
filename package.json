@@ -1,6 +1,6 @@
 {
   "name": "@sayanriju/scaffold-crud-from-mongoose-model",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "author": "Sayan Riju Chakrabarti <s26c.sayan@gmail.com>",
   "bin": {
     "scaffold-crud-from-mongoose-model": "./bin/run"
