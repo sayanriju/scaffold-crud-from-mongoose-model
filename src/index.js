@@ -5,6 +5,7 @@ const relative = require("relative")
 const pluralize = require("pluralize")
 
 function parseModel(model) {
+  // console.log(Object.values(model.schema.paths).filter(p => p.path.includes(".") === true));
   const paths = Object.values(model.schema.paths)
     .map(p => ({
       field: p.path,
@@ -20,21 +21,24 @@ function parseModel(model) {
       if (!cur.field.startsWith("_")) {
         if (cur.isNested) {
           const topField = cur.field.split(".")[0]
-          acc.push(Object.assign(cur, { topField }))
-          if (acc.find(p => p.field === topField) === undefined) {
-            acc.push(Object.assign(cur, {
+          if (acc.find(p => p.field === topField && p.isTopField === true) === undefined) {
+            acc.push(Object.assign({}, cur, {
               field: topField,
               type: "Object",
               isNested: false,
-              isDeepNested: false
+              isDeepNested: false,
+              isTopField: true
             }))
           }
+          acc.push(Object.assign({}, cur, { topField }))
         } else {
           acc.push(cur)
         }
       }
       return acc
     }, [])
+    console.log("========", paths.filter(a => a.topField == 'geo').length);
+    // console.log(paths);
   return {
     modelName: model.modelName,
     paths
