@@ -5,7 +5,6 @@ const relative = require("relative")
 const pluralize = require("pluralize")
 
 function parseModel(model) {
-  // console.log(Object.values(model.schema.paths).filter(p => p.path.includes(".") === true));
   const paths = Object.values(model.schema.paths)
     .map(p => ({
       field: p.path,
@@ -37,8 +36,6 @@ function parseModel(model) {
       }
       return acc
     }, [])
-    console.log("========", paths.filter(a => a.topField == 'geo').length);
-    // console.log(paths);
   return {
     modelName: model.modelName,
     paths
