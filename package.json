@@ -9,7 +9,7 @@
   "dependencies": {
     "@oclif/command": "^1.5.10",
     "@oclif/config": "^1.12.6",
-    "@oclif/plugin-help": "^2.1.6",
+    "@oclif/plugin-help": "^2.2.0",
     "ejs": "^2.6.1",
     "mongoose": "^5.4.13",
     "pluralize": "^7.0.0",
