@@ -7,7 +7,7 @@
   },
   "bugs": "https://github.com/sayanriju/mynewcli/issues",
   "dependencies": {
-    "@oclif/command": "^1.5.10",
+    "@oclif/command": "^1.5.14",
     "@oclif/config": "^1.12.6",
     "@oclif/plugin-help": "^2.1.6",
     "ejs": "^2.6.1",
