@@ -11,7 +11,7 @@
     "@oclif/config": "^1.12.6",
     "@oclif/plugin-help": "^2.1.6",
     "ejs": "^2.6.1",
-    "mongoose": "^5.4.13",
+    "mongoose": "^5.7.5",
     "pluralize": "^7.0.0",
     "relative": "^3.0.2"
   },
